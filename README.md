@@ -6,6 +6,7 @@
 或者配合 donut 可以将 exe、dll 转为 Shellcode 载入 MimiKatz 等工具
 
 # 使用方法
+使用 Visual Studio 2022 打开，然后选择 Release 编译
 
 自定义一个 key，然后使用 xorencrypt.py 将 Shellcode 加密
 
