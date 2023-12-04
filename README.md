@@ -31,7 +31,8 @@
 
 
 # 效果
-![img2][README.assets/img2.png)
+![img2](README.assets/img2.png)
+
 其他杀软请自测
 
 ![demo](README.assets/demo.gif)
