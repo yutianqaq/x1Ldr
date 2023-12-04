@@ -1,4 +1,7 @@
 # 更新日志
+
+https://mp.weixin.qq.com/s/L3d7w-u__T1zeL5rze4M0A
+
 经过删除 pdb 信息，加 icon 运行时库改为 /MT 后，可以某步全绿
 
 # BypassAV-1
