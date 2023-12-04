@@ -1,3 +1,6 @@
+# 更新日志
+经过删除 pdb 信息，加 icon 运行时库改为 /MT 后，可以某步全绿
+
 # BypassAV-1
 通过分离的方式规避杀软
 
@@ -28,7 +31,7 @@
 
 
 # 效果
-
+![img2][README.assets/img2.png)
 其他杀软请自测
 
 ![demo](README.assets/demo.gif)
