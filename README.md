@@ -1,3 +1,4 @@
+> 免责声明：本项目涉及的技术仅供安全学习与研究防御用途，使用请遵守当地法律！
 # 更新日志
 
 https://mp.weixin.qq.com/s/L3d7w-u__T1zeL5rze4M0A
